@@ -26,7 +26,12 @@ class Task(models.Model):
     needed_files = models.FileField(blank=True, null=True)
     staff_asigned = models.ForeignKey("Staff_member", on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f'{self.task_name} {self.task_description}'
+
 
 class Staff_member(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.user.email
