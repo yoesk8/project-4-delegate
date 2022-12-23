@@ -22,8 +22,6 @@ class Task(models.Model):
     department = models.CharField(choices=DEPARTMENT, max_length=100)
     task_priority = models.PositiveIntegerField(
         default=1, validators=[MinValueValidator(1), MaxValueValidator(100)])
-
-    needed_files = models.FileField(blank=True, null=True)
     staff_asigned = models.ForeignKey("Staff_member", on_delete=models.CASCADE)
 
     def __str__(self):
