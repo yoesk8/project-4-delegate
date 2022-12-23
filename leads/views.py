@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Task
+from .forms import TaskForm
 
 
 def task_list(request):
@@ -17,3 +18,10 @@ def task_detail(request, pk):
         "task": task
     }
     return render(request, "leads/tasks_detail.html", context)
+
+
+def task_create(request):
+    context = {
+        "form": TaskForm()
+    }
+    return render(request, "leads/task_create.html", context)
