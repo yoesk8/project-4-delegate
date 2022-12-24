@@ -34,7 +34,23 @@ def task_create(request):
     return render(request, "leads/task_create.html", context)
 
 
-# def task_create(request):
+def task_update(request, pk):
+    task = Task.objects.get(id=pk)
+    form = TaskModelForm(instance=task)
+    if request.method == "POST":
+        form = TaskModelForm(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            return redirect("/leads")
+    context = {
+        "form": form,
+        "task": task
+    }
+    return render(request, "leads/task_update.html", context)
+
+
+# def task_update(request, pk):
+#     task = Task.objects.get(id=pk)
 #     form = TaskForm()
 #     if request.method == "POST":
 #         form = TaskForm(request.POST)
@@ -44,14 +60,39 @@ def task_create(request):
 #             task_priority = form.cleaned_data["task_priority"]
 #             department = form.cleaned_data["department"]
 #             staff_asigned = Staff_member.objects.first()
-#             Task.objects.create(
-#                 task_name=task_name,
-#                 task_description=task_description,
-#                 task_priority=task_priority,
-#                 department=department,
-#                 staff_asigned=staff_asigned
-#             )
+#             task.task_name = task_name
+#             task.task_description = task_description
+#             task.task_priority = task_priority
+#             task.department = department
+#             task.staff_asigned = staff_asigned
+#             task.save()
 #             return redirect("/leads")
+
+    # context = {
+    #     "form": form,
+    #     "task": task
+    # }
+    # return render(request, "leads/task_update.html", context)
+
+# Without django modelform
+# def task_create(request):
+    # form = TaskForm()
+    # if request.method == "POST":
+    #     form = TaskForm(request.POST)
+    #     if form.is_valid():
+    #         task_name = form.cleaned_data["task_name"]
+    #         task_description = form.cleaned_data["task_description"]
+    #         task_priority = form.cleaned_data["task_priority"]
+    #         department = form.cleaned_data["department"]
+    #         staff_asigned = Staff_member.objects.first()
+    #         Task.objects.create(
+    #             task_name=task_name,
+    #             task_description=task_description,
+    #             task_priority=task_priority,
+    #             department=department,
+    #             staff_asigned=staff_asigned
+    #         )
+    #         return redirect("/leads")
 
 #     context = {
 #         "form": form
