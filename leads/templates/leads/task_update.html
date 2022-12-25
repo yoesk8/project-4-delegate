@@ -10,7 +10,7 @@
     </style>
 </head>
 <body>
-    <a href="/leads/">Go back</a>
+    <a href="{% url 'leads:task-detail' task.pk %}">Go back to {{ task.task_name }}</a>
     <hr>
     <h1>Update existing task {{ task.task_name }}</h1>
     <form method="post">

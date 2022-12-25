@@ -18,13 +18,13 @@
     </style>
 </head>
 <body>
-    <a href="/leads/create/">Create new task</a>
+    <a href="{% url 'leads:task-create' %}">Create new task</a>
     <hr>
     <h1>Tasks List</h1>
     {% for task in tasks %}
 
     <div class="lead">
-       <a href="/leads/{{ task.pk }}/">{{ task.task_name }}</a> 
+       <a href="{% url 'leads:task-detail' task.pk %}">{{ task.task_name }}</a> 
     </div>
 
     {% endfor %}

@@ -18,13 +18,13 @@
     </style>
 </head>
 <body>
-    <a href="/leads/">Go back</a>
+    <a href="{% url 'leads:task-list' %}">Go back</a>
     <hr>
     <h1>Tasks details of {{ task.task_name }}</h1>
     <p>Description of task: {{ task.task_description }}</p>
     <p>Staff asigned to completion of task: {{ task.staff_asigned }}</p>
     <hr>
-    <a href="/leads/{{ task.pk }}/update/">Update</a>
-    <a href="/leads/{{ task.pk }}/delete/">Delete</a>
+    <a href="{% url 'leads:task-update' task.pk %}">Update</a>
+    <a href="{% url 'leads:task-delete' task.pk %}">Delete</a>
 </body>
 </html>
