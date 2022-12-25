@@ -49,6 +49,11 @@ def task_update(request, pk):
     return render(request, "leads/task_update.html", context)
 
 
+def task_delete(request, pk):
+    task = Task.objects.get(id=pk)
+    task.delete()
+    return redirect("/leads")
+
 # def task_update(request, pk):
 #     task = Task.objects.get(id=pk)
 #     form = TaskForm()
