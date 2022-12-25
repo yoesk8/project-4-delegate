@@ -4,6 +4,10 @@ from .models import Task, Staff_member
 from .forms import TaskForm, TaskModelForm
 
 
+def landing_page(request):
+    return render(request, "landing.html")
+
+
 def task_list(request):
     task = Task.objects.all()
     context = {
