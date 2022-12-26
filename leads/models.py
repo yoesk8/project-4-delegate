@@ -8,6 +8,13 @@ class User(AbstractUser):
     pass
 
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.username
+
+
 class Task(models.Model):
     # This tuple is the different departments that gets passed to the
     # department variable
@@ -30,6 +37,7 @@ class Task(models.Model):
 
 class Staff_member(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    organisation = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.user.email

@@ -1,5 +1,6 @@
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect, reverse
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.views import generic
 from .models import Task, Staff_member
@@ -22,7 +23,7 @@ def landing_page(request):
     return render(request, "landing.html")
 
 
-class TaskListView(generic.ListView):
+class TaskListView(LoginRequiredMixin, generic.ListView):
     template_name = "leads/tasks_list.html"
     queryset = Task.objects.all()
     context_object_name = "tasks"
@@ -36,7 +37,7 @@ def task_list(request):
     return render(request, "leads/tasks_list.html", context)
 
 
-class TaskDetailView(generic.DetailView):
+class TaskDetailView(LoginRequiredMixin, generic.DetailView):
     template_name = "leads/tasks_detail.html"
     queryset = Task.objects.all()
     context_object_name = "task"
@@ -50,7 +51,7 @@ def task_detail(request, pk):
     return render(request, "leads/tasks_detail.html", context)
 
 
-class TaskCreateView(generic.CreateView):
+class TaskCreateView(LoginRequiredMixin, generic.CreateView):
     template_name = "leads/task_create.html"
     form_class = TaskModelForm
 
@@ -81,7 +82,7 @@ def task_create(request):
     return render(request, "leads/task_create.html", context)
 
 
-class TaskUpdateView(generic.UpdateView):
+class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
     template_name = "leads/task_update.html"
     queryset = Task.objects.all()
 
@@ -106,7 +107,7 @@ def task_update(request, pk):
     return render(request, "leads/task_update.html", context)
 
 
-class TaskDeleteView(generic.DeleteView):
+class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
     template_name = "leads/task_delete.html"
     queryset = Task.objects.all()
 
