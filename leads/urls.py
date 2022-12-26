@@ -1,7 +1,8 @@
 from django.urls import path
 from .views import (
     task_list, task_detail, task_create, task_update, task_delete,
-    TaskListView, TaskDetailView, TaskCreateView, TaskUpdateView, TaskDeleteView
+    TaskListView, TaskDetailView, TaskCreateView,
+    TaskUpdateView, TaskDeleteView
 )
 app_name = 'leads'
 
