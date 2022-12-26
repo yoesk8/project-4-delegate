@@ -1,8 +1,17 @@
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse
 from django.views import generic
 from .models import Task, Staff_member
-from .forms import TaskForm, TaskModelForm
+from .forms import TaskForm, TaskModelForm, CustomUserCreationForm
+
+
+class SignupView(generic.CreateView):
+    template_name = "registration/signup.html"
+    form_class = CustomUserCreationForm
+
+    def get_success_url(self):
+        return reverse("login")
 
 
 class LandingPageView(generic.TemplateView):
@@ -47,6 +56,15 @@ class TaskCreateView(generic.CreateView):
 
     def get_success_url(self):
         return reverse("leads:task-list")
+
+    def form_valid(self, form):
+        send_mail(
+            subject="A task has been created",
+            message="Go to the site to see new task",
+            from_email="test@test.com",
+            recipient_list=["test@test2.com"]
+            )
+        return super(TaskCreateView, self).form_valid(form)
 
 
 def task_create(request):
