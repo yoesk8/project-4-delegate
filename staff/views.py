@@ -21,7 +21,6 @@ class StaffCreateView(LoginRequiredMixin, generic.CreateView):
 
     def form_valid(self, form):
         staff = form.save(commit=False)
-        print(self.request.user)
-        # staff.organisation = self.request.user.userprofile   NOT WORKING
-        # staff.save()
+        staff.organisation = self.request.user.userprofile
+        staff.save()
         return super(StaffCreateView, self).form_valid(form)

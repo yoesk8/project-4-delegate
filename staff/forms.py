@@ -7,5 +7,4 @@ class StaffModelForm(forms.ModelForm):
         model = Staff_member
         fields = (
             'user',
-            'organisation'
         )
