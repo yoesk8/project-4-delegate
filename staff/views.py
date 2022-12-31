@@ -7,9 +7,10 @@ from .forms import StaffModelForm
 
 class StaffListView(LoginRequiredMixin, generic.ListView):
     template_name = "staff/staff_list.html"
-    
+
     def get_queryset(self):
-        return Staff_member.objects.all()
+        organisation = self.request.user.userprofile
+        return Staff_member.objects.filter(organisation=organisation)
 
 
 class StaffCreateView(LoginRequiredMixin, generic.CreateView):
@@ -31,18 +32,21 @@ class StaffDetailView(LoginRequiredMixin, generic.DetailView):
     context_object_name = "staff"
 
     def get_queryset(self):
-        return Staff_member.objects.all()
+        organisation = self.request.user.userprofile
+        return Staff_member.objects.filter(organisation=organisation)
 
 
 class StaffUpdateView(LoginRequiredMixin, generic.UpdateView):
     template_name = "staff/staff_update.html"
     form_class = StaffModelForm
+    context_object_name = "staff"
 
     def get_success_url(self):
         return reverse("staff:staff-list")
 
     def get_queryset(self):
-        return Staff_member.objects.all()
+        organisation = self.request.user.userprofile
+        return Staff_member.objects.filter(organisation=organisation)
 
 
 class StaffDeleteView(LoginRequiredMixin, generic.DeleteView):
@@ -53,4 +57,5 @@ class StaffDeleteView(LoginRequiredMixin, generic.DeleteView):
         return reverse("staff:staff-list")
 
     def get_queryset(self):
-        return Staff_member.objects.all()
+        organisation = self.request.user.userprofile
+        return Staff_member.objects.filter(organisation=organisation)

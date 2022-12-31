@@ -9,14 +9,14 @@
             <h2 class="text-sm title-font text-gray-500 tracking-widest">AGENT</h2>
             <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">{{ staff.user.username }}</h1>
             <div class="flex mb-4">
-                <a href="{% url 'staff:staff-detail' 1 %}" class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">
+                <a href="{% url 'staff:staff-detail' staff.pk %}" class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">
                     Overview
                 </a>
                 <a class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">
-                    Reviews
+                    Reviews 
                 </a>
-                <a href="{% url 'staff:staff-update' 1 %}" class="flex-grow text-indigo-500 border-b-2 border-indigo-500 py-2 text-lg px-1">
-                    Update Details
+                <a href="{% url 'staff:staff-update' staff.pk %}" class="flex-grow text-indigo-500 border-b-2 border-indigo-500 py-2 text-lg px-1">
+                    Update Details 
                 </a>
             </div>
             <form form method="post">
@@ -24,7 +24,7 @@
                 {{ form.as_p }}
                 <button type="submit">Submit</button>
             </form>
-            <a href="{% url 'staff:staff-delete' 1 %}" class="w-1/2 mt-3 flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
+            <a href="{% url 'staff:staff-delete' staff.pk %}" class="w-1/2 mt-3 flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
                 Delete
             </a>
         </div>

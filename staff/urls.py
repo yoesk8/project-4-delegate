@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import StaffListView, StaffCreateView, StaffDetailView, StaffUpdateView, StaffDeleteView
+from .views import (StaffListView, StaffCreateView,
+                    StaffDetailView, StaffUpdateView, StaffDeleteView)
 
 
 app_name = 'staff'
