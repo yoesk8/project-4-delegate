@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.views import generic
+from staff.mixins import OrganisorAndLoginRequiredMixin
 from .models import Task, Staff_member
 from .forms import TaskForm, TaskModelForm, CustomUserCreationForm
 
@@ -51,7 +52,7 @@ def task_detail(request, pk):
     return render(request, "leads/tasks_detail.html", context)
 
 
-class TaskCreateView(LoginRequiredMixin, generic.CreateView):
+class TaskCreateView(OrganisorAndLoginRequiredMixin, generic.CreateView):
     template_name = "leads/task_create.html"
     form_class = TaskModelForm
 
@@ -82,7 +83,7 @@ def task_create(request):
     return render(request, "leads/task_create.html", context)
 
 
-class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
+class TaskUpdateView(OrganisorAndLoginRequiredMixin, generic.UpdateView):
     template_name = "leads/task_update.html"
     queryset = Task.objects.all()
 
@@ -107,7 +108,7 @@ def task_update(request, pk):
     return render(request, "leads/task_update.html", context)
 
 
-class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
+class TaskDeleteView(OrganisorAndLoginRequiredMixin, generic.DeleteView):
     template_name = "leads/task_delete.html"
     queryset = Task.objects.all()
 
