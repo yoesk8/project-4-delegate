@@ -31,7 +31,8 @@ class Task(models.Model):
     department = models.CharField(choices=DEPARTMENT, max_length=100)
     task_priority = models.PositiveIntegerField(
         default=1, validators=[MinValueValidator(1), MaxValueValidator(100)])
-    staff_asigned = models.ForeignKey("Staff_member", on_delete=models.CASCADE)
+    organisation = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    staff_asigned = models.ForeignKey("Staff_member", null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return f'{self.task_name} {self.task_description}'

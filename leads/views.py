@@ -26,8 +26,18 @@ def landing_page(request):
 
 class TaskListView(LoginRequiredMixin, generic.ListView):
     template_name = "leads/tasks_list.html"
-    queryset = Task.objects.all()
     context_object_name = "tasks"
+
+    def get_queryset(self):
+        user = self.request.user
+        # initial queryset of tasks for the entire organisation
+        if user.is_manager:
+            queryset = Task.objects.filter(organisation=user.userprofile)
+        else:
+            queryset = Task.objects.filter(organisation=user.staff_member.organisation)
+            # filter for the staff that is logged in
+            queryset = queryset.filter(staff_asigned__user=user)
+        return queryset
 
 
 def task_list(request):
