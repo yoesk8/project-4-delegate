@@ -6,7 +6,8 @@ from django.contrib.auth.models import AbstractUser
 
 # Own User model in case different fields want to be added later
 class User(AbstractUser):
-    pass
+    is_manager = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
 
 
 class UserProfile(models.Model):

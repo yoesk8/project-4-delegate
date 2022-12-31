@@ -3,9 +3,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import reverse
 from leads.models import Staff_member
 from .forms import StaffModelForm
+from .mixins import OrganisorAndLoginRequiredMixin
 
 
-class StaffListView(LoginRequiredMixin, generic.ListView):
+class StaffListView(OrganisorAndLoginRequiredMixin, generic.ListView):
     template_name = "staff/staff_list.html"
 
     def get_queryset(self):
@@ -13,7 +14,7 @@ class StaffListView(LoginRequiredMixin, generic.ListView):
         return Staff_member.objects.filter(organisation=organisation)
 
 
-class StaffCreateView(LoginRequiredMixin, generic.CreateView):
+class StaffCreateView(OrganisorAndLoginRequiredMixin, generic.CreateView):
     template_name = "staff/staff_create.html"
     form_class = StaffModelForm
 
@@ -27,7 +28,7 @@ class StaffCreateView(LoginRequiredMixin, generic.CreateView):
         return super(StaffCreateView, self).form_valid(form)
 
 
-class StaffDetailView(LoginRequiredMixin, generic.DetailView):
+class StaffDetailView(OrganisorAndLoginRequiredMixin, generic.DetailView):
     template_name = "staff/staff_detail.html"
     context_object_name = "staff"
 
@@ -36,7 +37,7 @@ class StaffDetailView(LoginRequiredMixin, generic.DetailView):
         return Staff_member.objects.filter(organisation=organisation)
 
 
-class StaffUpdateView(LoginRequiredMixin, generic.UpdateView):
+class StaffUpdateView(OrganisorAndLoginRequiredMixin, generic.UpdateView):
     template_name = "staff/staff_update.html"
     form_class = StaffModelForm
     context_object_name = "staff"
@@ -49,7 +50,7 @@ class StaffUpdateView(LoginRequiredMixin, generic.UpdateView):
         return Staff_member.objects.filter(organisation=organisation)
 
 
-class StaffDeleteView(LoginRequiredMixin, generic.DeleteView):
+class StaffDeleteView(OrganisorAndLoginRequiredMixin, generic.DeleteView):
     template_name = "staff/staff_delete.html"
     context_object_name = "staff"
 
