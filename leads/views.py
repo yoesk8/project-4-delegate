@@ -35,7 +35,8 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
             queryset = Task.objects.filter(organisation=user.userprofile)
         else:
             queryset = Task.objects.filter(organisation=user.staff_member.organisation)
-            # filter for the staff that is logged in
+            print(queryset)
+            # filter for the staff that is logged in, not working
             queryset = queryset.filter(staff_asigned__user=user)
         return queryset
 
@@ -52,6 +53,18 @@ class TaskDetailView(LoginRequiredMixin, generic.DetailView):
     template_name = "leads/tasks_detail.html"
     queryset = Task.objects.all()
     context_object_name = "task"
+
+    def get_queryset(self):
+        user = self.request.user
+        # initial queryset of tasks for the entire organisation
+        if user.is_manager:
+            queryset = Task.objects.filter(organisation=user.userprofile)
+        else:
+            queryset = Task.objects.filter(organisation=user.staff_member.organisation)
+            print(queryset)
+            # filter for the staff that is logged in, not working
+            queryset = queryset.filter(staff_asigned__user=user)
+        return queryset
 
 
 def task_detail(request, pk):
@@ -95,9 +108,12 @@ def task_create(request):
 
 class TaskUpdateView(OrganisorAndLoginRequiredMixin, generic.UpdateView):
     template_name = "leads/task_update.html"
-    queryset = Task.objects.all()
-
     form_class = TaskModelForm
+
+    def get_queryset(self):
+        user = self.request.user
+        # initial queryset of tasks for the entire organisation
+        return Task.objects.filter(organisation=user.userprofile)
 
     def get_success_url(self):
         return reverse("leads:task-list")
@@ -120,10 +136,14 @@ def task_update(request, pk):
 
 class TaskDeleteView(OrganisorAndLoginRequiredMixin, generic.DeleteView):
     template_name = "leads/task_delete.html"
-    queryset = Task.objects.all()
 
     def get_success_url(self):
         return reverse("leads:task-list")
+
+    def get_queryset(self):
+        user = self.request.user
+        # initial queryset of tasks for the entire organisation
+        return Task.objects.filter(organisation=user.userprofile)
 
 
 def task_delete(request, pk):
