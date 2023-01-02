@@ -33,6 +33,7 @@ class Task(models.Model):
         default=1, validators=[MinValueValidator(1), MaxValueValidator(100)])
     organisation = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     staff_asigned = models.ForeignKey("Staff_member", null=True, blank=True, on_delete=models.SET_NULL)
+    category = models.ForeignKey("Category", null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return f'{self.task_name} {self.task_description}'
@@ -44,6 +45,13 @@ class Staff_member(models.Model):
 
     def __str__(self):
         return self.user.email
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=30)  # Operations, Training, Sales, Other
+
+    def __str__(self):
+        return self.name
 
 
 def post_user_created_signal(sender, instance, created, **kwargs):
