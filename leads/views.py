@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.views import generic
 from staff.mixins import OrganisorAndLoginRequiredMixin
 from .models import Task, Staff_member
-from .forms import TaskForm, TaskModelForm, CustomUserCreationForm
+from .forms import TaskForm, TaskModelForm, CustomUserCreationForm, AssignStaffForm
 
 
 class SignupView(generic.CreateView):
@@ -164,6 +164,29 @@ def task_delete(request, pk):
     task = Task.objects.get(id=pk)
     task.delete()
     return redirect("/leads")
+
+
+class AssignStaffView(OrganisorAndLoginRequiredMixin, generic.FormView):
+    template_name = "leads/assign_staff.html"
+    form_class = AssignStaffForm
+
+    def get_form_kwargs(self, **kwargs):
+        kwargs = super(AssignStaffView, self).get_form_kwargs(**kwargs)
+        kwargs.update({
+            "request": self.request
+        })
+        return kwargs
+
+    def get_success_url(self):
+        return reverse("leads:task-list")
+
+    def form_valid(self, form):
+        staff_asigned = form.cleaned_data["staff_asigned"]
+        task = Task.objects.get(id=self.kwargs["pk"])
+        task.staff_asigned = staff_asigned
+        task.save()
+        return super(AssignStaffView, self).form_valid(form)
+
 
 # def task_update(request, pk):
 #     task = Task.objects.get(id=pk)

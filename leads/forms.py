@@ -1,5 +1,5 @@
 from django import forms
-from .models import Task
+from .models import Task, Staff_member
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, UsernameField
 
@@ -30,3 +30,15 @@ class CustomUserCreationForm(UserCreationForm):
         model = User
         fields = ("username",)
         field_classes = {'username': UsernameField}
+
+
+class AssignStaffForm(forms.Form):
+    staff_asigned = forms.ModelChoiceField(queryset=Staff_member.objects.none())
+
+    def __init__(self, *args, **kwargs):
+        request = kwargs.pop("request")
+        print(request.user)
+        staffs = Staff_member.objects.filter(organisation=request.user.userprofile)
+        super(AssignStaffForm, self).__init__(*args, **kwargs)
+        self.fields["staff_asigned"].queryset = staffs
+
