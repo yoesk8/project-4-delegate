@@ -32,13 +32,27 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
         user = self.request.user
         # initial queryset of tasks for the entire organisation
         if user.is_manager:
-            queryset = Task.objects.filter(organisation=user.userprofile)
+            queryset = Task.objects.filter(organisation=user.userprofile,
+                                           staff_asigned__isnull=False)
         else:
-            queryset = Task.objects.filter(organisation=user.staff_member.organisation)
-            print(queryset)
+            queryset = Task.objects.filter(organisation=user.staff_member.organisation,
+                                           staff_asigned__isnull=False)
             # filter for the staff that is logged in, not working
             queryset = queryset.filter(staff_asigned__user=user)
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(TaskListView, self).get_context_data(**kwargs)
+        user = self.request.user
+        if user.is_manager:
+            queryset = Task.objects.filter(
+                organisation=user.userprofile,
+                staff_asigned__isnull=True
+            )
+            context.update({
+                "unassigned_tasks": queryset
+            })
+        return context
 
 
 def task_list(request):
