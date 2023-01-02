@@ -48,7 +48,8 @@ class Staff_member(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=30)  # Operations, Training, Sales, Other
+    name = models.CharField(max_length=30)
+    organisation = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

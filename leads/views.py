@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.views import generic
 from staff.mixins import OrganisorAndLoginRequiredMixin
-from .models import Task, Staff_member
+from .models import Task, Staff_member, Category
 from .forms import TaskForm, TaskModelForm, CustomUserCreationForm, AssignStaffForm
 
 
@@ -186,6 +186,34 @@ class AssignStaffView(OrganisorAndLoginRequiredMixin, generic.FormView):
         task.staff_asigned = staff_asigned
         task.save()
         return super(AssignStaffView, self).form_valid(form)
+
+
+class CategoryListView(LoginRequiredMixin, generic.ListView):
+    template_name = "leads/category_list.html"
+    context_object_name = "category_list"
+
+    def get_context_data(self, **kwargs):
+        context = super(CategoryListView, self).get_context_data(**kwargs)
+        user = self.request.user
+
+        if user.is_manager:
+            queryset = Task.objects.filter(organisation=user.userprofile)
+        else:
+            queryset = Task.objects.filter(organisation=user.staff_member.organisation)
+
+        context.update({
+            "unassigned_tasks_count": queryset.filter(category__isnull=True).count()
+        })
+        return context
+
+    def get_queryset(self):
+        user = self.request.user
+        # initial queryset of tasks for the entire organisation
+        if user.is_manager:
+            queryset = Category.objects.filter(organisation=user.userprofile)
+        else:
+            queryset = Category.objects.filter(organisation=user.staff_member.organisation)
+        return queryset
 
 
 # def task_update(request, pk):
