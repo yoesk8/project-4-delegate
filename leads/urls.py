@@ -2,7 +2,7 @@ from django.urls import path
 from .views import (
     TaskListView, TaskDetailView, TaskCreateView,
     TaskUpdateView, TaskDeleteView, AssignStaffView,
-    CategoryListView
+    CategoryListView, CategoryDetailView
 )
 app_name = 'leads'
 
@@ -14,6 +14,7 @@ urlpatterns = [
     path('<int:pk>/update/', TaskUpdateView.as_view(), name='task-update'),
     path('<int:pk>/delete/', TaskDeleteView.as_view(), name='task-delete'),
     path('<int:pk>/assign-staff/', AssignStaffView.as_view(), name='assign-staff'),
-    path('categories/', CategoryListView.as_view(), name='category-list')
+    path('categories/', CategoryListView.as_view(), name='category-list'),
+    path('categories/<int:pk>/', CategoryDetailView.as_view(), name='category-detail')
 
 ]
