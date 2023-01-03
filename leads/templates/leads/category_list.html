@@ -21,9 +21,9 @@
           <tbody>
             <tr>
                 <td class="px-4 py-3">Unassigned </td>
-                <td class="px-4 py-3">{{ unassigned_tasks_count }}</td>
+                <td class="px-4 py-3">{{ unassigned_tasks_count }}</td> 
             </tr>
-            {% for category in category.tasks.all %}
+            {% for category in category_list %}
                 <tr>
                     <td class="px-4 py-3"> <a href="{% url 'leads:category-detail' category.pk %}"></a>{{ category.name }}</a></td>
                     <td class="px-4 py-3">TODO count</td>

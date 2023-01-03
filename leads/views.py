@@ -210,7 +210,8 @@ class CategoryListView(LoginRequiredMixin, generic.ListView):
         user = self.request.user
         # initial queryset of tasks for the entire organisation
         if user.is_manager:
-            queryset = Category.objects.filter(organisation=user.userprofile)
+            # queryset = Category.objects.filter(organisation=user.userprofile)
+            queryset = Category.objects.all()
         else:
             queryset = Category.objects.filter(organisation=user.staff_member.organisation)
         return queryset
