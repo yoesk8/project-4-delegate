@@ -98,11 +98,11 @@ class TaskCreateView(OrganisorAndLoginRequiredMixin, generic.CreateView):
 
     def form_valid(self, form):
         send_mail(
-            subject="A task has been created",
-            message="Go to the site to see new task",
+            subject="A lead has been created",
+            message="Go to the site to see the new lead",
             from_email="test@test.com",
-            recipient_list=["test@test2.com"]
-            )
+            recipient_list=["test2@test.com"]
+        )
         return super(TaskCreateView, self).form_valid(form)
 
 
@@ -113,7 +113,6 @@ def task_create(request):
         if form.is_valid():
             form.save()
             return redirect("/leads")
-
     context = {
         "form": form
     }
@@ -210,8 +209,8 @@ class CategoryListView(LoginRequiredMixin, generic.ListView):
         user = self.request.user
         # initial queryset of tasks for the entire organisation
         if user.is_manager:
-            # queryset = Category.objects.filter(organisation=user.userprofile)
-            queryset = Category.objects.all()
+            queryset = Category.objects.filter(organisation=user.userprofile)
+            # queryset = Category.objects.all()
         else:
             queryset = Category.objects.filter(organisation=user.staff_member.organisation)
         return queryset

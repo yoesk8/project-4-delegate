@@ -1,5 +1,5 @@
 from django import forms
-from .models import Task, Staff_member
+from .models import Task, Staff_member, UserProfile
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, UsernameField
 
@@ -9,12 +9,12 @@ User = get_user_model()
 class TaskModelForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = (
-            'task_name',
-            'task_description',
-            'task_priority',
-            'staff_asigned'
-        )
+        fields = ['task_name',
+                  'task_description',
+                  'task_priority',
+                  'organisation',
+                  'staff_asigned',
+                  'category']
 
 
 class TaskForm(forms.Form):
